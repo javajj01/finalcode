@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.LawerMapper" >
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Lawer" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+    <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List" >
+    id, name, address, year, number, workspace, description, wordprice, phoneprice, photo, status,phone
+  </sql>
+
+  <!--查询所有的律师-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jw_lawer
+  </select>
+
+  <!--添加律师的关系表-->
+  <insert id="addlawerandtypeid">
+    insert into jw_type_lawer values(#{lid},#{lawertypeid})
+  </insert>
+  <!--删除律师的关系表-->
+  <delete id="deletelawerandtypeid" parameterType="String">
+    delete from jw_type_lawer where lawerid=#{id}
+  </delete>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jw_lawer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+<resultMap id="rp" type="lawer">
+  <id column="lid" property="id" jdbcType="VARCHAR" />
+  <result column="lname" property="name" jdbcType="VARCHAR" />
+  <result column="address" property="address" jdbcType="VARCHAR" />
+  <result column="year" property="year" jdbcType="VARCHAR" />
+  <result column="number" property="number" jdbcType="VARCHAR" />
+  <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+  <result column="description" property="description" jdbcType="VARCHAR" />
+  <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+  <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+  <result column="photo" property="photo" jdbcType="VARCHAR" />
+  <result column="status" property="status" jdbcType="VARCHAR" />
+  <result column="lphone" property="phone" jdbcType="VARCHAR" />
+  <collection property="redpackages" javaType="list" ofType="redpackage">
+    <id column="rid" property="id" jdbcType="VARCHAR" />
+    <result column="redpackage" property="redpackage" jdbcType="DECIMAL" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <association property="user" javaType="user">
+      <id column="usid" property="id" jdbcType="VARCHAR" />
+      <result column="usname" property="name" jdbcType="VARCHAR" />
+      <result column="usphone" property="phone" jdbcType="VARCHAR" />
+      <result column="money" property="money" jdbcType="DOUBLE" />
+    </association>
+  </collection>
+</resultMap>
+
+
+  <select id="selectLawerRedPackage" resultMap="rp" parameterType="java.lang.String" >
+    select
+    l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo, status,l.phone lphone,
+    r.id rid,redpackage,content,
+    us.id usid,us.name usname,us.phone usphone,money
+    from jw_lawer l left join jw_redpackage r on l.id=r.lawerid left join
+    jw_user us on us.id=r.userid
+    where l.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <resultMap id="lt" type="lawer">
+    <id column="lid" property="id" jdbcType="VARCHAR" />
+    <result column="lname" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+    <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+
+    <collection property="lawertypes" javaType="list" ofType="lawertype">
+      <id column="jwltid" property="id" jdbcType="VARCHAR" />
+      <result column="jwltname" property="name" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+
+  <select id="selectLawerType" resultMap="lt" parameterType="String">
+    select l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo, status,phone,
+jwlt.id jwltid,jwlt.name jwltname
+from jw_lawer l left join jw_type_lawer jtl on l.id=jtl.lawerid
+LEFT JOIN jw_lawertype jwlt on jtl.lawertypeid=jwlt.id
+where l.id=#{id}
+  </select>
+
+
+  <resultMap id="lc" type="lawer">
+    <id column="lid" property="id" jdbcType="VARCHAR" />
+    <result column="lname" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+    <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="lstatus" property="status" jdbcType="VARCHAR" />
+    <result column="lphone" property="phone" jdbcType="VARCHAR" />
+    <collection property="comments" javaType="list" ofType="comment">
+      <id column="cid" property="id" jdbcType="VARCHAR" />
+      <result column="score" property="score" jdbcType="DOUBLE" />
+      <result column="ccontent" property="content" jdbcType="VARCHAR" />
+      <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+      <association property="order" javaType="order">
+        <association property="user" javaType="user">
+          <id column="jwuid" property="id" jdbcType="VARCHAR" />
+          <result column="jwuname" property="name" jdbcType="VARCHAR" />
+        </association>
+      </association>
+    </collection>
+  </resultMap>
+
+  <select id="selectLawerComment" resultMap="lc" parameterType="String">
+ SELECT
+  l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo,
+  l.status lstatus,
+  l.phone lphone,jwu.id jwuid,jwu.name jwuname,c.id cid,score, c.content ccontent, createtime
+  from jw_lawer l left join jw_order o on l.id=o.lawerid
+  LEFT JOIN jw_user jwu on jwu.id=o.userid
+  LEFT JOIN jw_comment c on o.id=c.orderid where l.id=#{id}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jw_lawer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.baizhi.entity.Lawer" >
+    insert into jw_lawer (id, name, address, 
+      year, number, workspace, 
+      description, wordprice, phoneprice, 
+      photo, status,phone)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{year,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{workspace,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{wordprice,jdbcType=DECIMAL}, #{phoneprice,jdbcType=DECIMAL},
+      #{photo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR})
+  </insert>
+
+
+
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Lawer" >
+    update jw_lawer
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      workspace = #{workspace,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      wordprice = #{wordprice,jdbcType=DECIMAL},
+      phoneprice = #{phoneprice,jdbcType=DECIMAL},
+      photo = #{photo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

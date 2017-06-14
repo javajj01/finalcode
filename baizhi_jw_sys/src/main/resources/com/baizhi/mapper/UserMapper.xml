@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, name, phone, money
+  </sql>
+
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from jw_user
+  </select>
+
+
+  <resultMap id="so" type="user">
+    <id column="jwuid" property="id" jdbcType="VARCHAR" />
+    <result column="jwuname" property="name" jdbcType="VARCHAR" />
+    <collection property="orders" javaType="list" ofType="order">
+      <id column="oid" property="id" jdbcType="VARCHAR" />
+      <result column="ocontent" property="content" jdbcType="VARCHAR" />
+      <result column="type" property="type" jdbcType="VARCHAR" />
+      <result column="ostatus" property="status" jdbcType="INTEGER" />
+      <association property="lawer" javaType="lawer">
+        <id column="lid" property="id" jdbcType="VARCHAR" />
+        <result column="lname" property="name" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="year" property="year" jdbcType="VARCHAR" />
+        <result column="number" property="number" jdbcType="VARCHAR" />
+        <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+        <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="lstatus" property="status" jdbcType="VARCHAR" />
+        <result column="lphone" property="phone" jdbcType="VARCHAR" />
+      </association>
+      <association property="comment" javaType="comment">
+        <id column="cid" property="id" jdbcType="VARCHAR" />
+        <result column="score" property="score" jdbcType="DOUBLE" />
+        <result column="ccontent" property="content" jdbcType="VARCHAR" />
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+      </association>
+    </collection>
+  </resultMap>
+  <!--查询该用户的评价-->
+  <select id="selectOrder" resultMap="so" parameterType="String">
+    SELECT
+    l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo,
+    l.status lstatus,
+    l.phone lphone,jwu.id jwuid,jwu.name jwuname,c.id cid,score, c.content ccontent, createtime,
+		o.id oid,o.content ocontent,type,o.status ostatus
+    from jw_lawer l left join jw_order o on l.id=o.lawerid
+    LEFT JOIN jw_user jwu on jwu.id=o.userid
+    LEFT JOIN jw_comment c on o.id=c.orderid where jwu.id=#{id}
+  </select>
+
+
+  <resultMap id="sp" type="User">
+    <id column="usid" property="id" jdbcType="VARCHAR" />
+    <result column="usname" property="name" jdbcType="VARCHAR" />
+    <result column="usphone" property="phone" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <collection property="redpackages" javaType="list" ofType="redpackage">
+      <id column="rid" property="id" jdbcType="VARCHAR" />
+      <result column="redpackage" property="redpackage" jdbcType="DECIMAL" />
+      <result column="content" property="content" jdbcType="VARCHAR" />
+      <association property="lawer" javaType="lawer">
+        <id column="lid" property="id" jdbcType="VARCHAR" />
+        <result column="lname" property="name" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="year" property="year" jdbcType="VARCHAR" />
+        <result column="number" property="number" jdbcType="VARCHAR" />
+        <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+        <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+        <result column="photo" property="photo" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="lphone" property="phone" jdbcType="VARCHAR" />
+      </association>
+    </collection>
+  </resultMap>
+  <!--查询该用户的所有红包-->
+  <select id="selectRedPackage" resultMap="sp" parameterType="String">
+      select
+    l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo, status,l.phone lphone,
+    r.id rid,redpackage,content,
+    us.id usid,us.name usname,us.phone usphone,money
+    from jw_lawer l left join jw_redpackage r on l.id=r.lawerid left join
+    jw_user us on us.id=r.userid
+    where us.id =#{id}
+  </select>
+
+  <!--查询该用户收藏的律师-->
+
+  <resultMap id="sf" type="user">
+    <id column="usid" property="id" jdbcType="VARCHAR" />
+    <result column="usname" property="name" jdbcType="VARCHAR" />
+    <result column="usphone" property="phone" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <collection property="lawers" javaType="list" ofType="lawer">
+      <id column="lid" property="id" jdbcType="VARCHAR" />
+      <result column="lname" property="name" jdbcType="VARCHAR" />
+      <result column="address" property="address" jdbcType="VARCHAR" />
+      <result column="year" property="year" jdbcType="VARCHAR" />
+      <result column="number" property="number" jdbcType="VARCHAR" />
+      <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+      <result column="description" property="description" jdbcType="VARCHAR" />
+      <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+      <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+      <result column="photo" property="photo" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="VARCHAR" />
+      <result column="lphone" property="phone" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+
+
+  <select id="selectfavorite" parameterType="String" resultMap="sf">
+    SELECT
+    us.id usid,us.name usname,us.phone usphone,money,
+    l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo, status,l.phone lphone
+    from jw_user us left JOIN jw_favorite f on us.id=f.userid left JOIN
+    jw_lawer l on l.id=f.lawerid
+    where us.id=#{id}
+
+
+  </select>
+</mapper>
