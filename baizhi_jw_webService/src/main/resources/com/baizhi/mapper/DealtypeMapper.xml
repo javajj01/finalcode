@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.DealtypeMapper" >
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Dealtype" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List" >
+    id, name, flag
+  </sql>
+
+
+  <!--查询所有的分类-->
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from jw_dealtype where flag='o'
+  </select>
+
+
+  <resultMap id="tt" type="dealtype">
+    <id column="dlid" property="id" jdbcType="VARCHAR" />
+    <result column="dlname" property="name" jdbcType="VARCHAR" />
+    <collection property="dealtypes" javaType="list" ofType="dealtype">
+      <id column="dltid" property="id" jdbcType="VARCHAR" />
+      <result column="dltname" property="name" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+
+  <select id="selectTwoTag" parameterType="String" resultMap="tt" >
+    select  dl.id dlid, dl.name dlname,
+    dlt.id dltid, dlt.name dltname
+
+    from jw_dealtype dl left join jw_dealtype dlt on dl.id=dlt.parentid
+    where dl.id=#{id}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jw_dealtype
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from jw_dealtype
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteparentid" parameterType="java.lang.String" >
+    delete from jw_dealtype
+    where parentid = #{id,jdbcType=VARCHAR}
+  </delete>
+
+
+
+  <insert id="insert" parameterType="com.baizhi.entity.Dealtype" >
+    insert into jw_dealtype (id, name,parentid, flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{dealtype.id,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+
+
+
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Dealtype" >
+    update jw_dealtype
+    set name = #{name,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

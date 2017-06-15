@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.MenuMapper">
+
+  <sql id="mmsql">
+    id, name, href, iconCls
+  </sql>
+
+  <resultMap id="mm" type="menu">
+    <id column="jmid" property="id" />
+    <result column="jmname" property="name"/>
+    <result column="jmhref" property="href"/>
+    <result column="jmiconCls" property="iconCls"/>
+    <collection property="menus" javaType="list" ofType="menu">
+      <id column="jmeid" property="id" />
+      <result column="jmename" property="name"/>
+      <result column="jmehref" property="href"/>
+      <result column="jmeiconCls" property="iconCls"/>
+    </collection>
+  </resultMap>
+  <!--查所有标签的详细-->
+  <select id="selectAll" resultMap="mm">
+    select jm.id jmid,jm.name jmname,jm.href jmhref,
+    jm.iconCls jmiconCls,jme.id jmeid,jme.name jmename,jme.href jmehref,
+    jme.iconCls jmeiconCls from jw_menu jm join jw_menu jme on jm.id=jme.parentid
+
+  </select>
+
+
+</mapper>
