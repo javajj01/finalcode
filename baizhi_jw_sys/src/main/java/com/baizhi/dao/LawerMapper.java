@@ -24,6 +24,7 @@ public interface LawerMapper {
 
     //删除律师的关系表
     public void deletelawerandtypeid(String id);
+
     int updateByPrimaryKey(Lawer record);
 
     //查看该律师的红包记录

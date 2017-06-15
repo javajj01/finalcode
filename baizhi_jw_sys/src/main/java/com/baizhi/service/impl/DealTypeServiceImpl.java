@@ -74,4 +74,14 @@ public class DealTypeServiceImpl implements DealTypeService{
         List<Dealtype> dealtypes = dealtype.getDealtypes();
         return dealtypes;
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+    public Dealtype selectOne(String id) {
+        Dealtype dealtype = dealtypeMapper.selectByPrimaryKey(id);
+        return dealtype;
+    }
+
+    public void update(Dealtype dealtype) {
+        dealtypeMapper.updateByPrimaryKey(dealtype);
+    }
 }

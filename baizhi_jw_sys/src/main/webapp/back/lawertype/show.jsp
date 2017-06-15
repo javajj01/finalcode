@@ -82,7 +82,7 @@
             $("#da").dialog({
                 title:"修改信息",
                 iconCls:"icon-man",
-                href:'${pageContext.request.contextPath}/student/update.jsp?id='+id,
+                href:'${pageContext.request.contextPath}/back/lawertype/update.jsp?id='+id,
                 buttons:[{
                     text:'保存',
                     iconCls:'icon-save',
@@ -98,7 +98,7 @@
 
         function saveEmp() {
             $("#updateff").form("submit",{
-                url:'${pageContext.request.contextPath}/student/update',
+                url:'${pageContext.request.contextPath}/lawertype/update',
                 success:function(){
                     $("#da").dialog('close',true);
                     $("#dt").datagrid('reload');
@@ -117,25 +117,9 @@
                 }
             })
         }
-        function test4(value,name) {
-           $.post("${pageContext.request.contextPath}/student/selectByName",{flag:name,name:value},function (result) {
-               console.log(result);
-               $("#dt").datagrid("loadData",result)
 
-           },"JSON");
-        }
     </script>
 
-<div data-options="region:'north'," style="height:50px;">
-    <div style="text-align: center;margin: 10px 0px 10px 0px;">
-        <input id="ss" class="easyui-searchbox" style="width:300px"
-               data-options="searcher:test4,prompt:'Please Input Value',menu:'#mm'">
-        <div id="mm" style="width:120px">
-            <div data-options="name:'name'">名称</div>
-            <div data-options="name:'age'">年龄</div>
-        </div>
-    </div>
-</div>
 
 <div data-options="region:'south'," style="height:715px;">
 <table id="dt" class="easyui-datagrid"></table>

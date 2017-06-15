@@ -59,5 +59,12 @@ public class LawertypeController {
         return lawertypes;
     }
 
+    //查找一个律师分类
+    @RequestMapping("/showOne")
+    @ResponseBody
+    public Lawertype showOne(String id){
+        Lawertype lawertype = lawertypeService.selectOne(id);
+        return lawertype;
+    }
 
 }

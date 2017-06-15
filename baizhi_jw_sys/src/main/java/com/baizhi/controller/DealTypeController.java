@@ -67,7 +67,20 @@ public class DealTypeController {
         return check;
     }
 
+    //查询一个分类
+    @RequestMapping("/showOne")
+    @ResponseBody
+    public Dealtype showOne(String id){
+        Dealtype dealtype = dealTypeService.selectOne(id);
+        return dealtype;
+    }
 
+    //更新一个分类
+    @RequestMapping("/update")
+    @ResponseBody
+    public void update(Dealtype dealtype){
+        dealTypeService.update(dealtype);
+    }
 
 
 }

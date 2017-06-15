@@ -60,7 +60,7 @@
                     {title:'名称',field:'name',width:200, sortable:true},
                     {title:'操作',field:'en',width:200, sortable:true,
                         formatter:function(value,row,index){
-                            return  "<a class='edit' onClick=\"test2('"+ row.id +"')\"  href='javascript:;'>修改</a>"+
+                            return  "<a class='edit' onClick=\"test31('"+ row.id +"')\"  href='javascript:;'>修改</a>"+
                                     "<a class='edit' onClick=\"test11('"+ row.id +"')\"  href='javascript:;'>查看子标签</a>";
                         }
                     },
@@ -68,33 +68,33 @@
             })
 
         })
-        function test1(id) {
+       /* function test1(id) {
             $.messager.confirm("一个温馨的提示","你这个小白猪确定要删除么",function (r) {
                 if(r){
-                    $.post("${pageContext.request.contextPath}/dealtype/delete",{id:id});
+                    $.post("/dealtype/delete",{id:id});
                     $("#dealtypedt").datagrid('reload');
                 }
 
             });
-        }
+        }*/
 
         function test11(id){
-            $("#twodealtype").dialog({
+            $("#twodealtypedia").dialog({
                 title:"子标签",
                 iconCls:"icon-man",
                 href:'${pageContext.request.contextPath}/back/dealtype/twoDealtype.jsp?id='+id,
             })
         }
 
-        function test2(id) {
-            $("#dealtypeda").dialog({
+        function test31(id) {
+            $(".dealtypeda").dialog({
                 title:"修改信息",
                 iconCls:"icon-man",
-                href:'${pageContext.request.contextPath}/student/update.jsp?id='+id,
+                href:'${pageContext.request.contextPath}/back/dealtype/update.jsp?id='+id,
                 buttons:[{
                     text:'保存',
                     iconCls:'icon-save',
-                    handler:saveEmp,
+                    handler:saveDealtype,
 
                 },{
                     text:'关闭',
@@ -104,17 +104,17 @@
             })
         }
 
-        function saveEmp() {
-            $("#updateff").form("submit",{
-                url:'${pageContext.request.contextPath}/student/update',
+        function saveDealtype() {
+            $("#dealtypeupdateff").form("submit",{
+                url:'${pageContext.request.contextPath}/dealtype/update',
                 success:function(){
-                    $("#da").dialog('close',true);
+                    $(".dealtypeda").dialog('close',true);
                     $("#dealtypedt").datagrid('reload');
                 }
             })
         }
         function closeda() {
-            $("#dealtypeda").dialog('close',true);
+            $(".dealtypeda").dialog('close',true);
         }
         function adddealtype() {
             $('#dealtypeaddff').form("submit",{
@@ -125,34 +125,18 @@
                 }
             })
         }
-        function test4(value,name) {
-           $.post("${pageContext.request.contextPath}/student/selectByName",{flag:name,name:value},function (result) {
-               console.log(result);
-               $("#dealtypedt").datagrid("loadData",result)
 
-           },"JSON");
-        }
     </script>
 
-<div data-options="region:'north'," style="height:50px;">
-    <div style="text-align: center;margin: 10px 0px 10px 0px;">
-        <input id="ss" class="easyui-searchbox" style="width:300px"
-               data-options="searcher:test4,prompt:'Please Input Value',menu:'#mm'">
-        <div id="mm" style="width:120px">
-            <div data-options="name:'name'">名称</div>
-            <div data-options="name:'age'">年龄</div>
-        </div>
-    </div>
-</div>
 
 <div data-options="region:'south'," style="height:715px;">
 <table id="dealtypedt" class="easyui-datagrid"></table>
 
 <div id="dealtypediv" style="width:400px;height:200px"></div>
 
-<div id="dealtypeda" style="width:600px;height:300px">
+<div class="dealtypeda" style="width:600px;height:300px">
 
-    <div id="twodealtype" style="width:600px;height:300px"></div>
+    <div id="twodealtypedia" style="width:600px;height:300px"></div>
 
 </div>
 </div>

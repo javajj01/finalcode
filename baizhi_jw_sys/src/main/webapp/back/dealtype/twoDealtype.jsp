@@ -70,7 +70,7 @@
                     {title:'二级分类名称',field:'twoname',width:200, sortable:true},
                     {title:'操作',field:'en',width:200, sortable:true,
                         formatter:function(value,row,index){
-                            return "<a class='edit' onClick=\"test2('"+ row.twoid +"')\"  href='javascript:;'>修改</a>";
+                            return "<a class='edit' onClick=\"test33('"+ row.twoid +"')\"  href='javascript:;'>修改</a>";
                         }
                     },
 
@@ -78,15 +78,41 @@
             })
 
         })
-        function test9(id) {
+        function test33(id) {
+            $("#twodealtypeda").dialog({
+                title:"修改信息",
+                iconCls:"icon-man",
+                href:'${pageContext.request.contextPath}/back/dealtype/updatetwo.jsp?id='+id,
+                buttons:[{
+                    text:'保存',
+                    iconCls:'icon-save',
+                    handler:saveTwoDealtype,
+
+                },{
+                    text:'关闭',
+                    iconCls:'icon-cancel',
+                    handler:closeda,
+                }]
+            })
+        }
+        function saveTwoDealtype() {
+            $("#dealtypeupdatetwoff").form("submit",{
+                url:'${pageContext.request.contextPath}/dealtype/update',
+                success:function(){
+                    $("#twodealtypeda").dialog('close',true);
+                    $("#twodealtypedt").datagrid('reload');
+                }
+            })
+        }
+      /*  function test9(id) {
             $.messager.confirm("一个温馨的提示","你这个小白猪确定要删除么",function (r) {
                 if(r){
-                    $.post("${pageContext.request.contextPath}/dealtype/delete",{id:id});
+                    $.post("/dealtype/delete",{id:id});
                     $("#twodealtypedt").datagrid('reload');
                 }
 
             });
-        }
+        }*/
         function addtwodealtype() {
             $('#twoaddff').form("submit",{
                 url:"${pageContext.request.contextPath}/dealtype/add",
@@ -105,8 +131,7 @@
 <div data-options="region:'south'," style="height:715px;">
 <table id="twodealtypedt" class="easyui-datagrid"></table>
     <div id="twodealtypediv" style="width:600px;height:300px">
-
-
+        <div id="twodealtypeda" style="width:600px;height:300px"></div>
 </div>
 </div>
 

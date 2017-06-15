@@ -19,4 +19,6 @@ public interface LawertypeService {
     public void update(Lawertype lawertype);
 
     public List<Lawertype> queryAlllawertype();
+    //查询一个分类
+    public Lawertype selectOne(String id);
 }

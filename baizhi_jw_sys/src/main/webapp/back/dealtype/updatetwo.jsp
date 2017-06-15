@@ -2,7 +2,7 @@
 
 <script>
     $(function () {
-        $('#updateff').form('load','${pageContext.request.contextPath}/lawertype/showOne?id=${param.id}');
+        $('#dealtypeupdatetwoff').form('load','${pageContext.request.contextPath}/dealtype/showOne?id=${param.id}');
 
 
 
@@ -10,8 +10,9 @@
 
     })
 </script>
-<form action="post" id="updateff" >
+<form action="post" id="dealtypeupdatetwoff" >
     <input type="hidden" name="id" value="${param.id}">
     分类名称:<input type="text" class="easyui-textbox" name="name" data-options="iconCls:'icon-man'"><br/>
+    <input type="hidden" name="flag" value="t">
 </form>
 

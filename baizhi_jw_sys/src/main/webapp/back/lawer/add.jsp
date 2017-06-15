@@ -23,7 +23,7 @@
 
 
     </script>
-<form method="post" id="laweraddff" >
+<form method="post" id="laweraddff" enctype="multipart/form-data">
     姓名:<input type="text" class="easyui-textbox" name="name" data-options="iconCls:'icon-man'"><br/>
     地址:<input type="text" class="easyui-textbox" name="address" data-options="iconCls:'icon-man'"><br/>
     从业年限:<input type="text" class="easyui-textbox" name="year" data-options="iconCls:'icon-man'"><br/>
@@ -32,7 +32,7 @@
     简介:<input type="text" class="easyui-textbox" name="description" data-options="iconCls:'icon-man'"><br/>
     问题咨询价格:<input type="text" class="easyui-textbox" name="wordprice" data-options="iconCls:'icon-man'"><br/>
     电话咨询价格:<input type="text" class="easyui-textbox" name="phoneprice" data-options="iconCls:'icon-man'"><br/>
-    照片:<input type="text" class="easyui-textbox" name="photo" data-options="iconCls:'icon-man'"><br/>
+    照片:<input class="easyui-filebox" style="width:300px" name="image"><br/>
     电话:<input type="text" class="easyui-textbox" name="phone" data-options="iconCls:'icon-man'"><br/>
    请选择律师类别: <input id="cc" name="lawertypeid">
 </form>

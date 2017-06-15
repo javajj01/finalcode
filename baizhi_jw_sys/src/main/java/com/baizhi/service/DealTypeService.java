@@ -22,4 +22,8 @@ public interface DealTypeService {
     public List<TwoDealtype> queryTwoDealType(String id);
     //根据id查询二级分类
     public List<Dealtype> selectTwo(String id);
+    //查看一个分类
+    public Dealtype selectOne(String id);
+    //更新一个分类
+    public void update(Dealtype dealtype);
 }

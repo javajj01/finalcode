@@ -25,9 +25,11 @@
                     handler: function(){
                         //添加的窗口
                         $("#lawerdiv").dialog({
+                            width:800,
+                            height:600,
                             iconCls:'icon-save',
                             href:'${pageContext.request.contextPath}/back/lawer/add.jsp',
-                            title:"添加分类",
+                            title:"添加律师",
                             buttons:[{
                                 text:'保存',
                                 iconCls:'icon-save',
@@ -56,18 +58,24 @@
 
                 },
                 columns:[[
+                   {title:'照片',field:'22',width:115,sortable:true,
+                        formatter:function(value,row,index){
+
+                           return "<img  src=${pageContext.request.contextPath}/upload/"+row.photo+"></img>";
+                        }
+                    },
                     {title:'编号',field:'id',width:200, sortable:true},
-                    {title:'姓名',field:'name',width:200, sortable:true},
+                    {title:'姓名',field:'name',width:200,sortable:true},
                     {title:'姓名',field:'address',width:200, sortable:true},
                     {title:'律师号',field:'number',width:200, sortable:true},
                     {title:'律师事务所',field:'workspace',width:200, sortable:true},
-                    {title:'操作',field:'en',width:400, sortable:true,
+                    {title:'操作',field:'en',width:400,sortable:true,
                         formatter:function(value,row,index){
                             return "<a class='lawerdel' href='javascript:;' onclick=\"test1('"+row.id+"')\">删除</a>"+
-                                    "<a class='laweredit' onClick=\"test2('"+ row.id +"')\"  href='javascript:;'>修改</a>"+
-                                    "<a class='laweredit' onClick=\"test3('"+ row.id +"')\"  href='javascript:;'>红包记录</a>"+
-                                    "<a class='laweredit' onClick=\"test5('"+ row.id +"')\"  href='javascript:;'>律师分类标签</a>"+
-                                    "<a class='laweredit' onClick=\"test6('"+ row.id +"')\"  href='javascript:;'>律师评价</a>";
+                                    "<a class='laweredit' onClick=\"test40('"+ row.id +"')\"  href='javascript:;'>修改</a>"+
+                                    "<a class='laweredit' onClick=\"test41('"+ row.id +"')\"  href='javascript:;'>红包记录</a>"+
+                                    "<a class='laweredit' onClick=\"test42('"+ row.id +"')\"  href='javascript:;'>律师分类标签</a>"+
+                                    "<a class='laweredit' onClick=\"test43('"+ row.id +"')\"  href='javascript:;'>律师评价</a>";
                         }
                     },
                 ]]
@@ -87,21 +95,21 @@
 
 
 
-        function test3(id){
+        function test41(id){
             $("#redpackage").dialog({
                 title:"红包记录",
                 iconCls:"icon-man",
                 href:'${pageContext.request.contextPath}/back/lawer/redpackage.jsp?id='+id,
             })
         }
-        function test5(id){
+        function test42(id){
             $("#lawerlawertype").dialog({
                 title:"律师分类",
                 iconCls:"icon-man",
                 href:'${pageContext.request.contextPath}/back/lawer/lawerlawertype.jsp?id='+id,
             })
         }
-        function test6(id){
+        function test43(id){
             $("#lawercomment").dialog({
                 title:"律师评价",
                 iconCls:"icon-man",
@@ -111,11 +119,11 @@
 
 
 
-        function test2(id) {
+        function test40(id) {
             $("#da").dialog({
                 title:"修改信息",
                 iconCls:"icon-man",
-                href:'${pageContext.request.contextPath}/student/update.jsp?id='+id,
+                href:'${pageContext.request.contextPath}/back/lawer/update.jsp?id='+id,
                 buttons:[{
                     text:'保存',
                     iconCls:'icon-save',
@@ -130,8 +138,8 @@
         }
 
         function saveEmp() {
-            $("#updateff").form("submit",{
-                url:'${pageContext.request.contextPath}/student/update',
+            $("#lawerupdateff").form("submit",{
+                url:'${pageContext.request.contextPath}/lawer/update',
                 success:function(){
                     $("#da").dialog('close',true);
                     $("#lawerdt").datagrid('reload');
@@ -150,25 +158,8 @@
                 }
             })
         }
-        function test4(value,name) {
-           $.post("${pageContext.request.contextPath}/student/selectByName",{flag:name,name:value},function (result) {
-               console.log(result);
-               $("#lawerdt").datagrid("loadData",result)
 
-           },"JSON");
-        }
     </script>
-
-<div data-options="region:'north'," style="height:50px;">
-    <div style="text-align: center;margin: 10px 0px 10px 0px;">
-        <input id="ss" class="easyui-searchbox" style="width:300px"
-               data-options="searcher:test4,prompt:'Please Input Value',menu:'#mm'">
-        <div id="mm" style="width:120px">
-            <div data-options="name:'name'">名称</div>
-            <div data-options="name:'age'">年龄</div>
-        </div>
-    </div>
-</div>
 
 <div data-options="region:'south'," style="height:715px;">
 <table id="lawerdt" class="easyui-datagrid"></table>

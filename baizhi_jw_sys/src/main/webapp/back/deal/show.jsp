@@ -63,15 +63,14 @@
                     {title:'分类',field:'typename',width:200, sortable:true},
                     {title:'操作',field:'en',width:200, sortable:true,
                         formatter:function(value,row,index){
-                            return "<a class='del' href='javascript:;' onclick=\"test1('"+row.id+"')\">删除</a>"+
-                                    "<a class='edit' onClick=\"test2('"+ row.id +"')\"  href='javascript:;'>修改</a>";
+                            return "<a class='del' href='javascript:;' onclick=\"test30('"+row.id+"')\">删除</a>";
                         }
                     },
                 ]]
             })
 
         })
-        function test1(id) {
+        function test30(id) {
             $.messager.confirm("一个温馨的提示","你这个小白猪确定要删除么",function (r) {
                 if(r){
                     $.post("${pageContext.request.contextPath}/deal/delete",{id:id});
@@ -81,33 +80,10 @@
             });
         }
 
-        function test2(id) {
-            $("#dealda").dialog({
-                title:"修改信息",
-                iconCls:"icon-man",
-                href:'${pageContext.request.contextPath}/student/update.jsp?id='+id,
-                buttons:[{
-                    text:'保存',
-                    iconCls:'icon-save',
-                    handler:saveEmp,
 
-                },{
-                    text:'关闭',
-                    iconCls:'icon-cancel',
-                    handler:closeda,
-                }]
-            })
-        }
 
-        function saveEmp() {
-            $("#updateff").form("submit",{
-                url:'${pageContext.request.contextPath}/student/update',
-                success:function(){
-                    $("#da").dialog('close',true);
-                    $("#dealdt").datagrid('reload');
-                }
-            })
-        }
+
+
         function closeda() {
             $("#dealda").dialog('close',true);
         }
@@ -120,13 +96,7 @@
                 }
             })
         }
-        function test4(value,name) {
-           $.post("${pageContext.request.contextPath}/student/selectByName",{flag:name,name:value},function (result) {
-               console.log(result);
-               $("#dealdt").datagrid("loadData",result)
 
-           },"JSON");
-        }
     </script>
 
 <div data-options="region:'north'," style="height:50px;">

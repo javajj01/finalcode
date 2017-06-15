@@ -1,14 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: asus
-  Date: 2017/6/12
-  Time: 14:20
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" language="java" %>
 <html>
-<head>
-    <title>Title</title>
+<head runat="server">
+    <title>就问后台管理登录界面-www.16sucai.com</title>
+    <link href="${pageContext.request.contextPath}/easyui/css/alogin.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/css/themes/ui-sunny/easyui.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/css/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/easyui/css/IconExtension.css">
@@ -21,21 +15,16 @@
         var $loginff;
         $(function () {
             $btn=$("#btn");
-            $loginff=$("#loginff");
-            $btn.linkbutton({
-                onClick:test1,
-            })
+            $loginff=$("#form1");
         })
-
         function test1() {
-
             $loginff.form('submit',{
                 url:"${pageContext.request.contextPath}/admin/login",
                 success:function (result) {
-                    var data = eval('(' + result+ ')');
+                    var data = eval('('+result+')');
                     if(data.temp){
-                      
-                    window.location.href="${pageContext.request.contextPath}/back/main/main.jsp"
+
+                        window.location.href="${pageContext.request.contextPath}/back/main/main.jsp"
                     }else {
                         window.location.href="${pageContext.request.contextPath}/back/main/login.jsp"
                     }
@@ -45,13 +34,47 @@
     </script>
 </head>
 <body>
+<form id="form1" runat="server">
+    <div class="Main">
+        <ul>
+            <li class="top"></li>
+            <li class="top2"></li>
+            <li class="topA"></li>
+            <li class="topB"><span>
+                <img src="${pageContext.request.contextPath}/easyui/images/login/logo.gif" alt="" style="" />
+            </span></li>
+            <li class="topC"></li>
+            <li class="topD">
+                <ul class="login">
+                    <li><span class="left">用户名：</span> <span style="left">
+                        <input id="Text1" name="adminname" type="text" class="txt" />
+
+                    </span></li>
+                    <li><span class="left">密 码：</span> <span style="left">
+                       <input id="Text2" name="password" type="password" class="txt" />
+                    </span></li>
+
+                </ul>
+            </li>
+            <li class="topE"></li>
+            <li class="middle_A"></li>
+            <li class="middle_B"></li>
+            <li class="middle_C">
+            <span class="btn">
+
+                <img alt="" onclick="test1()" src="${pageContext.request.contextPath}/easyui/images/login/btnlogin.gif" />
 
 
-<form method="post" id="loginff">
-    用户名:<input name="adminname" class="easyui-textbox" data-options="iconCls:'icon-search;height:34px;padding:10px'" ><br/>
-    密码&nbsp:<input name="password"  class="easyui-passwordbox"  data-options="iconCls:'icon-search;height:34px;padding:10px'" ><br/>
-
-    <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">easyui</a>
+            </span>
+            </li>
+            <li class="middle_D"></li>
+            <li class="bottom_A"></li>
+            <li class="bottom_B">
+                第九组就问律师后台
+            </li>
+        </ul>
+    </div>
 </form>
 </body>
 </html>
+

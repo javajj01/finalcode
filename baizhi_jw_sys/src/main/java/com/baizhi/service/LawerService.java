@@ -12,6 +12,10 @@ import java.util.List;
  * Created by asus on 2017/6/12.
  */
 public interface LawerService {
+    //查询一个律师的信息
+    public Lawer queryOne(String id);
+    //修改一个律师
+    public void update(Lawer lawer);
     //查看所有的律师
     public Page<Lawer> queryAll(int page,int rows);
     //增加一个律师

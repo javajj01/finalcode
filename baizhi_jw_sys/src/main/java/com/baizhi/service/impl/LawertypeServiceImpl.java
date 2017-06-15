@@ -36,6 +36,11 @@ public class LawertypeServiceImpl implements LawertypeService {
         List<Lawertype> lawertypes = lawertypeMapper.selectAll();
         return lawertypes;
     }
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+    public Lawertype selectOne(String id) {
+        Lawertype lawertype = lawertypeMapper.selectByPrimaryKey(id);
+        return lawertype;
+    }
 
     public void add(Lawertype lawertype) {
         lawertype.setId(Utils.getSnowFlake());

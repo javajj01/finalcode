@@ -13,6 +13,7 @@ import com.baizhi.vo.LawerRedPackage;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,21 @@ public class LawerServiceImpl implements LawerService {
 
     @Autowired
     private LawerMapper lawerMapper;
+
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+    public Lawer queryOne(String id) {
+        Lawer lawer = lawerMapper.selectByPrimaryKey(id);
+        return lawer;
+    }
+
+    public void update(Lawer lawer) {
+        lawerMapper.deletelawerandtypeid(lawer.getId());
+        List<Lawertype> lawertypes = lawer.getLawertypes();
+        for (Lawertype lawertype : lawertypes) {
+            lawerMapper.addlawerandtypeid(lawer.getId(),lawertype.getId());
+        }
+        lawerMapper.updateByPrimaryKey(lawer);
+    }
 
     @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public Page<Lawer> queryAll(int page, int rows) {
