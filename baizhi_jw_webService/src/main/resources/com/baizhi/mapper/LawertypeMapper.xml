@@ -20,6 +20,35 @@
 
   </select>
 
+  <resultMap id="so" type="lawertype">
+    <id column="jltid" property="id" jdbcType="VARCHAR" />
+    <result column="jltname" property="name" jdbcType="VARCHAR" />
+    <collection property="lawers" javaType="list" ofType="lawer">
+      <id column="lid" property="id" jdbcType="VARCHAR" />
+      <result column="lname" property="name" jdbcType="VARCHAR" />
+      <result column="address" property="address" jdbcType="VARCHAR" />
+      <result column="year" property="year" jdbcType="VARCHAR" />
+      <result column="number" property="number" jdbcType="VARCHAR" />
+      <result column="workspace" property="workspace" jdbcType="VARCHAR" />
+      <result column="description" property="description" jdbcType="VARCHAR" />
+      <result column="wordprice" property="wordprice" jdbcType="DECIMAL" />
+      <result column="phoneprice" property="phoneprice" jdbcType="DECIMAL" />
+      <result column="photo" property="photo" jdbcType="VARCHAR" />
+      <result column="lstatus" property="status" jdbcType="VARCHAR" />
+      <result column="lphone" property="phone" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <select id="selectOneById" parameterType="String" resultMap="so">
+    select   jlt.id jltid,jlt.name jltname,
+    l.id lid, l.name lname, address, year, number, workspace, description, wordprice, phoneprice, photo,
+    l.status lstatus,
+    l.phone lphone
+    from jw_lawertype jlt
+    left JOIN jw_type_lawer tl on jlt.id=tl.lawertypeid
+    left JOIN  jw_lawer l on tl.lawerid=l.id
+     where jlt.id=#{id}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

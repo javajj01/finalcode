@@ -40,6 +40,49 @@
     where dl.id=#{id}
   </select>
 
+  <!--根据二级分类id查询-->
+  <resultMap id="st" type="dealtype">
+    <id column="dlid" property="id" jdbcType="VARCHAR" />
+    <result column="dlname" property="name" jdbcType="VARCHAR" />
+    <collection property="deals" javaType="list" ofType="deal">
+      <id column="did" property="id" jdbcType="VARCHAR" />
+      <result column="title" property="title" jdbcType="VARCHAR" />
+      <result column="createtime" property="createtime" jdbcType="DATE" />
+      <result column="content" property="content" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <select id="selectTwo" parameterType="String" resultMap="st">
+     select  dl.id dlid, dl.name dlname,
+    d.id did, title, createtime, content
+    from jw_dealtype dl left join jw_deal d on d.dealtypeid=dl.id
+    where dl.id=#{id}
+  </select>
+
+  <resultMap id="sd" type="dealtype">
+    <id column="dlid" property="id" jdbcType="VARCHAR" />
+    <result column="dlname" property="name" jdbcType="VARCHAR" />
+    <collection property="dealtypes" javaType="list" ofType="dealtype">
+      <id column="dltid" property="id" jdbcType="VARCHAR" />
+      <result column="dltname" property="name" jdbcType="VARCHAR" />
+      <collection property="deals" javaType="list" ofType="deal">
+        <id column="did" property="id" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="createtime" property="createtime" jdbcType="DATE" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+      </collection>
+    </collection>
+  </resultMap>
+  <!--展示所有一级分类及其案例-->
+  <select id="selectDetail" parameterType="String" resultMap="sd">
+     select  dl.id dlid, dl.name dlname,
+    dlt.id dltid, dlt.name dltname,
+    d.id did, title, createtime, content
+
+    from jw_dealtype dl left join jw_dealtype dlt on dl.id=dlt.parentid
+    left join jw_deal d on d.dealtypeid=dlt.id
+    where dl.id=#{id}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

@@ -21,4 +21,8 @@ public interface DealtypeMapper {
     public Dealtype selectTwoTag(String id);
     //删除便签下所有
     public void deleteparentid(String id);
+    //根据一级分类标签id展示所有的二级分类以及所有的二级分类案例
+    public Dealtype selectDetail(String id);
+    //根据二级分类id查询所有的案例
+    public Dealtype selectTwo(String id);
 }

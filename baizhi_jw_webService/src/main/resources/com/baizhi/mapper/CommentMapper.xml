@@ -22,9 +22,9 @@
   </delete>
   <insert id="insert" parameterType="com.baizhi.entity.Comment" >
     insert into jw_comment (id, score, content, 
-      createtime)
+      createtime,orderid)
     values (#{id,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE}, #{content,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP})
+      #{createtime,jdbcType=TIMESTAMP},#{order.id})
   </insert>
   <insert id="insertSelective" parameterType="com.baizhi.entity.Comment" >
     insert into jw_comment

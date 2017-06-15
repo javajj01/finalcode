@@ -12,11 +12,34 @@
     id, name, phone, money
   </sql>
 
+  <!--添加一个用户-->
+  <insert id="insert" parameterType="user">
+    insert into jw_user values(#{id},#{name},#{phone},#{money})
+  </insert>
+
+  <insert id="addFavorite">
+    insert into jw_favorite values(#{id},#{lid})
+  </insert>
+
 
   <select id="selectAll" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from jw_user
+  </select>
+
+  <select id="selectByPhone" parameterType="String">
+    select
+    <include refid="Base_Column_List" />
+    from jw_user
+    where phone=#{phone}
+  </select>
+
+  <select id="selectById" parameterType="String" resultType="user">
+    select
+    <include refid="Base_Column_List" />
+    from jw_user
+    where id=#{id}
   </select>
 
 

@@ -1,100 +1,84 @@
 package com.baizhi.service.impl;
 
 import com.baizhi.dao.UserMapper;
-import com.baizhi.entity.Lawer;
-import com.baizhi.entity.Order;
-import com.baizhi.entity.Redpackage;
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
-import com.baizhi.vo.Paging;
-import com.baizhi.vo.UserLawer;
-import com.baizhi.vo.UserOrder;
-import com.baizhi.vo.UserRedpackage;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baizhi.util.Utils;
+import com.taobao.api.ApiException;
+import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
+import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by asus on 2017/6/14.
+ * Created by asus on 2017/6/15.
  */
 @Service("userService")
-@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
-public class UserServiceImpl implements UserService{
-
+@Transactional
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
-    public Paging<User> queryAll(int page,int rows) {
-        Page<User> pages = PageHelper.startPage(page, rows);
-        userMapper.selectAll();
-        Paging<User> userPaging = new Paging<User>();
-        userPaging.setTotal((int) pages.getTotal());
-        userPaging.setRows(pages.getResult());
-        return userPaging;
-    }
 
-    public List<UserOrder> queryOrder(String id) {
-        User user = userMapper.selectOrder(id);
-        List<Order> orders = user.getOrders();
-        ArrayList<UserOrder> li = new ArrayList<UserOrder>();
-        for (Order order : orders) {
-            UserOrder uo = new UserOrder();
-            uo.setOid(order.getId());
-            uo.setUid(user.getId());
-            uo.setStatus(order.getStatus());
-            uo.setUsername(user.getName());
-            uo.setLid(order.getLawer().getId());
-            uo.setLawername(order.getLawer().getName());
-            if(order.getComment()==null){
-                uo.setComment("订单未完成暂无评价");
-            }else{
-            uo.setComment(order.getComment().getContent());
-            }
-            uo.setOrdercontent(order.getContent());
-            li.add(uo);
+    public User add(User user) {
+        User user1 = userMapper.selectByPhone(user.getPhone());
+        if(user1!=null){
+            return user1;
         }
-        return li;
+        user.setId(Utils.getSnowFlake());
+        user.setMoney(0.0);
+        user.setName(Utils.getSnowFlake());
+        userMapper.insert(user);
+        return user;
+
     }
 
-    public List<UserRedpackage> queryRedpackage(String id) {
-        User user = userMapper.selectRedPackage(id);
-        List<Redpackage> redpackages= user.getRedpackages();
-        ArrayList<UserRedpackage> li = new ArrayList<UserRedpackage>();
-        for (Redpackage redpackage : redpackages) {
-            UserRedpackage ur = new UserRedpackage();
-            ur.setId(user.getId());
-            ur.setUsername(user.getName());
-            ur.setLawername(redpackage.getLawer().getName());
-            ur.setLawerid(redpackage.getLawer().getId());
-            ur.setContent(redpackage.getContent());
-            ur.setRedpackage(redpackage.getRedpackage());
-            li.add(ur);
-        }
-        return li;
+
+    public String phonecode(String phone) throws Exception {
+
+
+                String url="http://gw.api.taobao.com/router/rest";
+               String appkey="23755497";
+               String secret="a4f3bea7773419c4e9633008eb91a756";
+               TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+                AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
+                req.setExtend("123456");
+                 req.setSmsType("normal");
+                req.setSmsFreeSignName("小白猪哥哥");
+                String salt = Utils.getsalt();
+                req.setSmsParamString("{\"code\":\""+salt+"\"}");
+                req.setRecNum(phone);
+                req.setSmsTemplateCode("SMS_62205270");
+                AlibabaAliqinFcSmsNumSendResponse rsp =(AlibabaAliqinFcSmsNumSendResponse) client.execute(req);
+
+        return salt;
     }
 
-    public List<UserLawer> queryLawer(String id) {
+    //查看一个用户所收藏的律师
+    public User selectFavorite(String id) {
         User user = userMapper.selectfavorite(id);
-        List<Lawer> lawers = user.getLawers();
-        ArrayList<UserLawer> li = new ArrayList<UserLawer>();
-        for (Lawer lawer : lawers) {
-            UserLawer ul = new UserLawer();
-            ul.setUid(user.getId());
-            ul.setUsername(user.getName());
-            ul.setLid(lawer.getId());
-            ul.setLawername(lawer.getName());
-            ul.setLaweraddress(lawer.getAddress());
-            ul.setLawerphone(lawer.getPhone());
-            li.add(ul);
-        }
-        return li;
+        return user;
+    }
+
+    public void addfavorite(String id, String lid) {
+        userMapper.addFavorite(id,lid);
+    }
+
+    public User queryByid(String id) {
+        User user = userMapper.selectById(id);
+        return user;
+    }
+
+    //添加一个收藏
+    public void addFavorite(String id,String lid){
+        userMapper.addFavorite(id,lid);
     }
 }

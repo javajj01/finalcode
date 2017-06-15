@@ -1,29 +1,17 @@
 package com.baizhi.service;
 
 import com.baizhi.entity.Dealtype;
-import com.baizhi.vo.Paging;
-import com.baizhi.vo.TwoDealtype;
 
 import java.util.List;
 
 /**
- * Created by asus on 2017/6/13.
+ * Created by asus on 2017/6/15.
  */
 public interface DealTypeService {
-    //添加一个分类
-    public void add(Dealtype dealtype);
-    //删除一个事件分类
-    public void delete(String id);
-    //查询所有的时间
-    public Paging<Dealtype> queryAll(int page, int rows);
-    //查询所有的分类
-    public List<Dealtype> check();
-    //根据id查询子标签
-    public List<TwoDealtype> queryTwoDealType(String id);
-    //根据id查询二级分类
-    public List<Dealtype> selectTwo(String id);
-    //查看一个分类
-    public Dealtype selectOne(String id);
-    //更新一个分类
-    public void update(Dealtype dealtype);
+    //展示所有的一级案列
+    public List<Dealtype> showOneType();
+    //根据id查询一级类别下的所有
+    public Dealtype showOneDetail(String id);
+    //根据二级id查询
+    public Dealtype showByTwoId(String id);
 }

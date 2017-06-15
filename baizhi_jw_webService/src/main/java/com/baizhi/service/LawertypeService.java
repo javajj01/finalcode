@@ -1,24 +1,15 @@
 package com.baizhi.service;
 
 import com.baizhi.entity.Lawertype;
-import com.github.pagehelper.Page;
 
 import java.util.List;
 
 /**
- * Created by asus on 2017/6/12.
+ * Created by asus on 2017/6/15.
  */
-public interface LawertypeService {
-    //查询所有的
-    public Page<Lawertype> queryAll(int page, int rows);
-    //添加一个分类
-    public void add(Lawertype lawertype);
-    //删除一个分类
-    public void delete(String id);
-    //修改一个分类
-    public void update(Lawertype lawertype);
-
-    public List<Lawertype> queryAlllawertype();
-    //查询一个分类
-    public Lawertype selectOne(String id);
+public interface LawerTypeService {
+    //查询所有的律师分类
+    public List<Lawertype> showAll();
+    //根据律师分类id查询该分类下的所有律师
+    public Lawertype showOneById(String id);
 }

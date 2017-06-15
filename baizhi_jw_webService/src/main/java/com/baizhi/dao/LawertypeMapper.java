@@ -16,6 +16,8 @@ public interface LawertypeMapper {
 
     //删除律师关系表
     public void delete(String id);
+    //根据分类id查询分类下的所有律师
+    public Lawertype selectOneById(String id);
 
     int updateByPrimaryKey(Lawertype record);
 }
