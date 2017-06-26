@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.CacheAnnotation;
 import com.baizhi.entity.Lawertype;
 import com.github.pagehelper.Page;
 
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public interface LawertypeService {
     //查询所有的
+    @CacheAnnotation
     public Page<Lawertype> queryAll(int page,int rows);
     //添加一个分类
     public void add(Lawertype lawertype);
@@ -20,5 +22,6 @@ public interface LawertypeService {
 
     public List<Lawertype> queryAlllawertype();
     //查询一个分类
+    @CacheAnnotation
     public Lawertype selectOne(String id);
 }

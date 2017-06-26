@@ -20,6 +20,40 @@
     where adminname= #{name}
   </select>
 
+  <!--根据管理员名字来查询该管理员的详细信息-->
+
+  <resultMap id="sd" type="admin">
+    <id column="aid" property="id" jdbcType="VARCHAR" />
+    <result column="adminname" property="adminname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <collection property="roles" javaType="list" ofType="role">
+      <id column="rid" property="id"></id>
+      <result column="rname" property="name"/>
+      <collection property="permissions" javaType="list" ofType="permission">
+        <id column="pid" property="id"></id>
+        <result column="pname" property="name"/>
+      </collection>
+    </collection>
+  </resultMap>
+  <select id="selectByNameDetail" resultMap="sd" parameterType="String">
+    SELECT
+a.id AS aid,
+a.adminname AS adminname,
+a.`password` AS `password`,
+a.salt AS salt,
+r.id AS rid,
+r.`name` AS rname,
+p.id AS pid,
+p.`name` AS pname
+FROM
+jw_admin AS a
+LEFT JOIN jw_admin_role AS ar ON ar.adminid = a.id
+LEFT JOIN jw_role AS r ON ar.roleid = r.id
+LEFT JOIN jw_permission_role AS pr ON pr.roleid = r.id
+LEFT JOIN jw_permission AS p ON pr.permissionid = p.id
+where adminname=#{name}
+  </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -1,9 +1,11 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by asus on 2017/6/13.
  */
-public class TwoDealtype {
+public class TwoDealtype  implements Serializable {
     private String oid;
     private String twoid;
     private String oname;

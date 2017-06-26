@@ -14,8 +14,8 @@ public interface UserMapper {
     public User selectfavorite(String id);
     //查询该用户的心意
     public User selectRedPackage(String id);
-
-
+    //查看一个用户送的红包次数
+    public User selectUserCount(String id);
 
 
 

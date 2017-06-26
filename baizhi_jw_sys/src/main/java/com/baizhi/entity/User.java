@@ -1,8 +1,9 @@
 package com.baizhi.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User  implements Serializable {
     private String id;
 
     private String name;
@@ -10,6 +11,17 @@ public class User {
     private String phone;
 
     private Double money;
+
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     private List<Order> orders;
     private List<Lawer> lawers;
 

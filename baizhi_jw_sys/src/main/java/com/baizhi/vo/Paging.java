@@ -2,12 +2,13 @@ package com.baizhi.vo;
 
 import com.baizhi.entity.Lawertype;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by asus on 2017/6/12.
  */
-public class Paging<T> {
+public class Paging<T>  implements Serializable {
     private Integer total;
     private List<T> rows;
 

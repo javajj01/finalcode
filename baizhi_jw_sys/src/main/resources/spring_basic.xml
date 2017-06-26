@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 <!--读取外部的配置文件-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -50,4 +51,65 @@
 
     <!--开始事务注解生效-->
     <tx:annotation-driven transaction-manager="dataSourceTransactionManager"></tx:annotation-driven>
+
+
+    <!--redis-->
+    <bean id="clusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <property name="clusterNodes">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7001"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7002"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7003"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7004"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7005"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisNode">
+                    <constructor-arg name="host" value="192.168.100.128"/>
+                    <constructor-arg name="port" value="7006"></constructor-arg>
+                </bean>
+            </set>
+        </property>
+
+
+    </bean>
+
+    <!--jedisfactory-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="clusterConfig" ref="clusterConfiguration"></constructor-arg>
+    </bean>
+
+    <!--redisTemplate-->
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+    </bean>
+    <!--redisTemplate-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"></property>
+    </bean>
+
+    <bean id="advice" class="com.baizhi.advice.CacheAdvice"></bean>
+
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* com.baizhi.service.*.*(..))"/>
+        <aop:advisor advice-ref="advice" pointcut-ref="pc"></aop:advisor>
+    </aop:config>
+
+
+
+
+    <import resource="classpath:spring_shiro.xml"></import>
 </beans>

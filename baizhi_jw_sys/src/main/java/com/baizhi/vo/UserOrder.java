@@ -1,11 +1,12 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by asus on 2017/6/14.
  */
-public class UserOrder {
+public class UserOrder  implements Serializable {
     private String oid;
     private String uid;
     private String username;

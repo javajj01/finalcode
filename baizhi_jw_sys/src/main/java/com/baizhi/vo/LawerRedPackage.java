@@ -1,11 +1,12 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by asus on 2017/6/12.
  */
-public class LawerRedPackage {
+public class LawerRedPackage  implements Serializable {
     private String id;
     private String name;
     private BigDecimal money;

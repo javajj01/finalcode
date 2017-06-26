@@ -2,10 +2,7 @@ package com.baizhi.controller;
 
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
-import com.baizhi.vo.Paging;
-import com.baizhi.vo.UserLawer;
-import com.baizhi.vo.UserOrder;
-import com.baizhi.vo.UserRedpackage;
+import com.baizhi.vo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,5 +50,12 @@ public class UserController {
     public List<UserLawer> showFavorite(String id){
         List<UserLawer> userLawers = userService.queryLawer(id);
         return userLawers;
+    }
+
+    @RequestMapping("showRedpackagecount")
+    @ResponseBody
+    public RedpackageCounts showcount(){
+        RedpackageCounts redpackageCounts = userService.queryAllUserCount();
+        return redpackageCounts;
     }
 }

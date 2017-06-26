@@ -20,6 +20,20 @@
   </select>
 
 
+  <resultMap id="suc" type="user">
+    <id column="jwuid" property="id" jdbcType="VARCHAR" />
+    <result column="jwuname" property="name" jdbcType="VARCHAR" />
+    <result column="count" property="count"></result>
+  </resultMap>
+
+  <select id="selectUserCount" parameterType="String" resultMap="suc">
+    select jwu.id jwuid,jwu.name jwuname,COUNT(jwu.id) count
+  from jw_user jwu
+  LEFT JOIN jw_redpackage r
+    on jwu.id=r.userid
+    where jwu.id=#{id}
+  </select>
+
   <resultMap id="so" type="user">
     <id column="jwuid" property="id" jdbcType="VARCHAR" />
     <result column="jwuname" property="name" jdbcType="VARCHAR" />

@@ -1,9 +1,11 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by asus on 2017/6/13.
  */
-public class OrderDetail {
+public class OrderDetail  implements Serializable {
     private String id;
     private String content;
     private String type;

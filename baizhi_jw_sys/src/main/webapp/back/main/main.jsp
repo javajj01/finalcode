@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" language="java" %>
-
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
     <title>Title</title>
@@ -72,6 +72,7 @@
 
 <div data-options="region:'north',split:false" style="height:70px;">
    <h3>律师管理系统</h3>
+    欢迎<shiro:principal/> <a href="${pageContext.request.contextPath}/admin/logout">点此登出</a>
 </div>
 
 <div data-options="region:'south',split:false" style="height:40px;"></div>

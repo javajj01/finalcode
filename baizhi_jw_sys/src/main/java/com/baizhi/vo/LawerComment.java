@@ -2,13 +2,14 @@ package com.baizhi.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.text.Format;
 import java.util.Date;
 
 /**
  * Created by asus on 2017/6/13.
  */
-public class LawerComment {
+public class LawerComment  implements Serializable {
     private String id;
     private String name;
     private String username;

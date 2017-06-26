@@ -1,9 +1,11 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by asus on 2017/6/13.
  */
-public class LawerLawerType {
+public class LawerLawerType  implements Serializable {
     private String id;
     private String name;
     private String typename;

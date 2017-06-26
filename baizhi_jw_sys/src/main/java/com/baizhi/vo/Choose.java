@@ -1,9 +1,11 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by asus on 2017/6/12.
  */
-public class Choose {
+public class Choose  implements Serializable {
     private Boolean temp;
 
 

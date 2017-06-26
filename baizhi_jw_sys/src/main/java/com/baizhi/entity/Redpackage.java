@@ -1,8 +1,9 @@
 package com.baizhi.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Redpackage {
+public class Redpackage  implements Serializable {
     private String id;
 
     private BigDecimal redpackage;

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" language="java" %>
-<script>
+<script><%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
         $(function () {
             $("#lawerdt").datagrid({
@@ -42,10 +42,13 @@
                         })
 
                     }
-                },'-',{
+                },'-' <shiro:hasPermission name="lawer:*">,
+                    {
                     iconCls: 'icon-help',
                     handler: function(){alert('帮助按钮')}
-                }],
+                }
+                    </shiro:hasPermission>
+                ],
                 onLoadSuccess:function () {
                     $(".lawerdel").linkbutton({
                         iconCls:"icon-remove",
@@ -69,20 +72,22 @@
                     {title:'姓名',field:'address',width:200, sortable:true},
                     {title:'律师号',field:'number',width:200, sortable:true},
                     {title:'律师事务所',field:'workspace',width:200, sortable:true},
+                    <shiro:hasPermission name="lawer:*">
                     {title:'操作',field:'en',width:400,sortable:true,
                         formatter:function(value,row,index){
-                            return "<a class='lawerdel' href='javascript:;' onclick=\"test1('"+row.id+"')\">删除</a>"+
+                            return "<a class='lawerdel' href='javascript:;' onclick=\"test50('"+row.id+"')\">删除</a>"+
                                     "<a class='laweredit' onClick=\"test40('"+ row.id +"')\"  href='javascript:;'>修改</a>"+
                                     "<a class='laweredit' onClick=\"test41('"+ row.id +"')\"  href='javascript:;'>红包记录</a>"+
                                     "<a class='laweredit' onClick=\"test42('"+ row.id +"')\"  href='javascript:;'>律师分类标签</a>"+
                                     "<a class='laweredit' onClick=\"test43('"+ row.id +"')\"  href='javascript:;'>律师评价</a>";
                         }
                     },
+                    </shiro:hasPermission>
                 ]]
             })
 
         })
-        function test1(id) {
+        function test50(id) {
             $.messager.confirm("一个温馨的提示","你这个小白猪确定要删除么",function (r) {
                 if(r){
                     $.post("${pageContext.request.contextPath}/lawer/delete",{id:id});

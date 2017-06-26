@@ -1,9 +1,11 @@
 package com.baizhi.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by asus on 2017/6/14.
  */
-public class UserLawer {
+public class UserLawer  implements Serializable {
     private String uid;
     private String username;
     private String lid;

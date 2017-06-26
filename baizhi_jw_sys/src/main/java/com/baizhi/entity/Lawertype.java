@@ -1,8 +1,9 @@
 package com.baizhi.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Lawertype {
+public class Lawertype  implements Serializable {
     private String id;
 
     private String name;

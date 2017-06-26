@@ -6,10 +6,7 @@ import com.baizhi.entity.Order;
 import com.baizhi.entity.Redpackage;
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
-import com.baizhi.vo.Paging;
-import com.baizhi.vo.UserLawer;
-import com.baizhi.vo.UserOrder;
-import com.baizhi.vo.UserRedpackage;
+import com.baizhi.vo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +15,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 2017/6/14.
@@ -96,5 +95,23 @@ public class UserServiceImpl implements UserService{
             li.add(ul);
         }
         return li;
+    }
+
+    public RedpackageCounts queryAllUserCount() {
+        List<User> list = userMapper.selectAll();
+        ArrayList<String> strs = new ArrayList<String>();
+        ArrayList<Integer> ints = new ArrayList<Integer>();
+        for (User user : list) {
+            User user1 = userMapper.selectUserCount(user.getId());
+            strs.add(user1.getName());
+            Integer count = user1.getCount();
+            ints.add(count);
+        }
+        RedpackageCounts rc= new RedpackageCounts();
+        rc.setUsers(strs);
+        rc.setData(ints);
+
+
+        return rc;
     }
 }

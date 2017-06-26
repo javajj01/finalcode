@@ -2,12 +2,13 @@ package com.baizhi.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by asus on 2017/6/13.
  */
-public class Deals {
+public class Deals  implements Serializable {
     private String id;
     private String title;
 

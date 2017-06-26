@@ -20,10 +20,7 @@ public class TestLawer {
     public static void main(String[] args) {
         ApplicationContext ac = new ClassPathXmlApplicationContext("spring_basic.xml");
         LawerService ls = (LawerService) ac.getBean("lawerService");
-        List<LawerComment> lawerComments = ls.queryLawerComment("12");
-        for (LawerComment lawerComment : lawerComments) {
-            System.out.println(lawerComment);
+        ls.delete("3");
         }
     }
 
-}

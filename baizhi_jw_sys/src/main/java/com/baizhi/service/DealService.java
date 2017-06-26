@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.CacheAnnotation;
 import com.baizhi.entity.Deal;
 import com.baizhi.vo.Deals;
 import com.baizhi.vo.Paging;
@@ -15,5 +16,6 @@ public interface DealService {
     //删除一个解决方案
     public void delete(String id);
     //查询所有的解决方案
+    @CacheAnnotation
     public Paging<Deals> queryAll(int page, int rows);
 }
