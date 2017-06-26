@@ -22,7 +22,7 @@
   <insert id="insert" parameterType="com.baizhi.entity.Redpackage" >
     insert into jw_redpackage (id, redpackage, content,lawerid,userid
       )
-    values (#{id,jdbcType=VARCHAR}, #{redpackage,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{redpackage,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR},
       #{lawer.id},#{user.id})
   </insert>
   <insert id="insertSelective" parameterType="com.baizhi.entity.Redpackage" >

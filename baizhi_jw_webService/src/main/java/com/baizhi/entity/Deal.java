@@ -1,8 +1,9 @@
 package com.baizhi.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Deal {
+public class Deal implements Serializable {
     private String id;
 
     private String title;

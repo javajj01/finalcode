@@ -1,8 +1,9 @@
 package com.baizhi.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private String id;
 
 
@@ -11,6 +12,34 @@ public class Order {
     private String type;
 
     private Integer status;
+    private Double ordermoney;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", status=" + status +
+                ", ordermoney=" + ordermoney +
+                '}';
+    }
+
+    public Order(String id, String content, String type, Integer status, Double ordermoney) {
+        this.id = id;
+        this.content = content;
+        this.type = type;
+        this.status = status;
+        this.ordermoney = ordermoney;
+    }
+
+    public Double getOrdermoney() {
+        return ordermoney;
+    }
+
+    public void setOrdermoney(Double ordermoney) {
+        this.ordermoney = ordermoney;
+    }
 
     private User user;
     private Lawer lawer;
@@ -27,22 +56,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(String id, String content, String type, Integer status) {
-        this.id = id;
-        this.content = content;
-        this.type = type;
-        this.status = status;
-    }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", content='" + content + '\'' +
-                ", type='" + type + '\'' +
-                ", status=" + status +
-                '}';
-    }
+
+
 
     public User getUser() {
         return user;

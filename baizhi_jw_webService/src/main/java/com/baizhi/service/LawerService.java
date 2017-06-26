@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.CacheAnnotation;
 import com.baizhi.entity.Lawer;
 
 import java.util.List;
@@ -9,8 +10,10 @@ import java.util.List;
  */
 public interface LawerService {
     //展示所有的律师
+    @CacheAnnotation
     public List<Lawer> show();
     //展示一个律师的详细信息
+    @CacheAnnotation
     public Lawer showOne(String id);
 
 }

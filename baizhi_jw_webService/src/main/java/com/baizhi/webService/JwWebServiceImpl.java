@@ -40,21 +40,22 @@ public class JwWebServiceImpl implements JwWebService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @POST
-    @Path("/registOrLogin")
+    @GET
+    @Path("/registOrLogin/{code}/{phone}/")
     @Produces("application/json;charset=utf-8")
-    @Consumes("application/json;charset=utf-8")
-    public HashMap<String, Object> registOrLogin(User user,String code) {
+    public HashMap<String, Object> registOrLogin(@PathParam("phone")String phone,@PathParam("code") String code) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         try {
             ValueOperations vo = redisTemplate.opsForValue();
-            String code1 = (String) vo.get(user.getPhone());
+            String code1 = (String) vo.get(phone);
             if(code.equalsIgnoreCase(code1)){
+                User user = new User();
+                user.setPhone(phone);
                 User add = userService.add(user);
                 map.put("status",1);
                 map.put("success",add);
             }else{
-             throw  new RuntimeException();
+             throw  new RuntimeException("验证码错误");
             }
         } catch (Exception e) {
             map.put("status",0);
@@ -75,7 +76,7 @@ public class JwWebServiceImpl implements JwWebService {
 
             map.put("status",1);
         } catch (Exception e) {
-            map.put("status",0);
+            map.put("statusz",0);
             e.printStackTrace();
         }
         return map;
@@ -290,5 +291,13 @@ public class JwWebServiceImpl implements JwWebService {
             map.put("status",0);
         }
         return  map;
+    }
+
+    public HashMap<String, Object> addOrder(Order order) {
+        return null;
+    }
+
+    public HashMap<String, Object> updateOrderStatus(Integer status) {
+        return null;
     }
 }

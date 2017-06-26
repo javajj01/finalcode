@@ -67,9 +67,9 @@
 
   <insert id="insert" parameterType="com.baizhi.entity.Order" >
     insert into jw_order (id, userid, content, 
-      type, status)
+      type, status,ordermoney)
     values (#{id,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
-      #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{ordermoney})
   </insert>
 
 
@@ -78,8 +78,6 @@
   <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Order" >
     update jw_order
     set
-      content = #{content,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>

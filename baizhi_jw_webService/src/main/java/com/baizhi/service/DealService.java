@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.CacheAnnotation;
 import com.baizhi.entity.Deal;
 
 /**
@@ -7,5 +8,6 @@ import com.baizhi.entity.Deal;
  */
 public interface DealService {
     //根据id查询一个案例
+    @CacheAnnotation
     public Deal showOneDeal(String id);
 }

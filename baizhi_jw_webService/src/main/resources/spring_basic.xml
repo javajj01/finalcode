@@ -3,13 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:aop="http://www.springframework.org/schema/aop"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
          http://www.springframework.org/schema/tx
-         http://www.springframework.org/schema/tx/spring-tx.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+         http://www.springframework.org/schema/tx/spring-tx.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 <!--读取外部的配置文件-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -107,7 +108,7 @@
         <property name="connectionFactory" ref="connectionFactory"></property>
     </bean>
 
-    <!--发布restful-->
+    <!--发布frestful-->
     <bean id="jwWebService" class="com.baizhi.webService.JwWebServiceImpl"/>
 
     <jaxrs:server address="/jw" serviceClass="com.baizhi.webService.JwWebService">
@@ -120,5 +121,12 @@
     </jaxrs:server>
 
     <bean id="fastJsonProvider" class="com.alibaba.fastjson.support.jaxrs.FastJsonProvider"></bean>
+
+    <bean id="advice" class="com.baizhi.advice.CacheAdvice"></bean>
+
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* com.baizhi.service.*.*(..))"/>
+        <aop:advisor advice-ref="advice" pointcut-ref="pc"></aop:advisor>
+    </aop:config>
 </beans>
 
